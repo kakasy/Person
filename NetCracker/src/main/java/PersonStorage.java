@@ -19,10 +19,12 @@ public class PersonStorage {
     private int last_id;
     private int count = 0;
 
+    //@Inject
+    //private  Sorter sorter = null;
+
+
     @Inject
-    private  Sorter sorter = null;
-
-
+    private Sorter sorter;
 
     /**
      * Конструктор PersonStorage - создание нового объекта коллекции людей с заданными значениями
@@ -61,6 +63,69 @@ public class PersonStorage {
         last_id++;
     }
 
+    /**
+    * Функция для получения человека по id
+    */
+    
+    public Person get(int id) {
+        log.info("передача Person с id " + id);
+        return people[id];
+    }
+    
+    /**
+    * функция перезаписывания всех id в порядке возрастания
+    */
+    public void changeIds()
+    {
+        log.info("изменение id в хранилище");
+        for(int j = 0; j <length(); j++) 
+        {
+            people[j].changeId(j);
+        }
+    }
+    
+    /**
+    * функция поиска людей в хранилище
+    *pc - экземпляр чекера по которому будет вестись список
+    *val - значение для сравнения
+    */
+    
+    public PersonStorage searchPersons(PersonChecker pc, Object val)
+    {
+        log.debug("поиск людей по " + pc.toString() + "и" + val.toString());
+        boolean found = false;
+        PersonStorage searchedpeople = new PersonStorage();
+        for(int i = 0; i < last_id; i++)
+        {
+            if(pc.check(people[i], val)) {
+                searchedpeople.addPerson(people[i]);
+                found = true;
+            }
+            else {
+            System.out.println("Не найдено ");
+            }
+        }
+
+        /***
+        * сеттер для сортера
+        */
+        public void setSorter(Sorter sorter) {
+            this.sorter = sorter;
+        }
+        /**
+        * геттер для сортера
+        */
+        public Sorter getSorter() {
+            return this.sorter;
+        }
+        
+        
+        /**
+        * функция для сортировки
+        */
+        public void sort(PersonComparator pc) {
+            sorter.sort(pc, this);
+    
     /**
      * Функция для удаления пользователя по id
      * id - уникальный идентификатор
