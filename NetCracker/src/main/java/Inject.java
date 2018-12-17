@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
  * annotation for setting fields
  * @author Никита
  */
-@Target(ElementType.FIELD)  //только для атрибутов(переменных) класса;
-@Retention(RetentionPolicy.RUNTIME)  //можно сохранять нашу аннотацию JVM во время выполнения -> использовать reflection
+@Target(ElementType.FIELD)  
+@Retention(RetentionPolicy.RUNTIME)  
 public @interface Inject {}
